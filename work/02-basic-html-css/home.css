@@ -1,0 +1,17 @@
+.animals-list{
+    border: 1px solid olivedrab;
+    border-radius: 5px;
+    padding: 10px 30px;
+    margin: 20px;
+}
+
+@counter-style cat-emoji {
+    system: cyclic;
+    symbols: "\1F431";
+    suffix: " ";
+}
+
+.animals-list-item{
+    list-style-type: cat-emoji;
+    margin: 5px;
+}
