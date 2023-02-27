@@ -9,7 +9,6 @@ const page = {
         return `
     <!DOCTYPE html>
     <html lang="en">
-    
       <head>
           <meta charset="UTF-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,12 +16,10 @@ const page = {
           <link rel="stylesheet" href="style.css">
           <title>Game</title>
       </head>
-    
       <body>
           ${page.getNavElement(username)}
           ${page.getMainElement(username)}
       </body>
-    
     </html>
     `;
     },
@@ -132,10 +129,9 @@ const page = {
         const userStat = info.userStatus[username];
         const msg = userStat.msg;
         return `
-    <p class="msg">${msg}</p>
-    `;
+            <p class="msg">${msg}</p>
+            `;
     },
-
 };
 
 module.exports = page;

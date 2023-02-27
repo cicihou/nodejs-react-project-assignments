@@ -4,8 +4,6 @@ const info = require("./userInfo")
 
 
 const controller = {
-
-
     login(req, res) {
         const username = req.body.username;
         const userUUID = uuid.v4();
@@ -28,11 +26,6 @@ const controller = {
         const sessionId = req.cookies["session-id"];
         delete info.userStorage[sessionId];
         res.redirect("/");
-    },
-
-    getUsername(req) {
-        const sessionId = req.cookies["session-id"];
-        return info.userStorage[sessionId];
     },
 
     newGame(req, res) {
@@ -64,7 +57,7 @@ const controller = {
         const username = info.userStorage[sessionId];
         if (!username) {
             res.status(401);
-            res.redirect("/"); // TODO: add error page
+            res.redirect("/");
             return;
         }
         // Load info
