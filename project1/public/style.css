@@ -24,8 +24,12 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
 }
 
 .login-panel {
@@ -55,23 +59,47 @@ html, body {
 }
 
 .prompt {
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .home-panel {
   width: 100%;
   height: 100%;
-  padding: 20px;
+  flex: none;
+  box-sizing: border-box;
+  padding: 10px;
 }
 
 .words-list {
   background-color: whitesmoke;
   padding: 10px 25px;
-  height: 250px;
+  height: 200px;
   overflow: auto;
+  font-size: 14px;
+  line-height: 2;
 }
 
-.logout-button {
+.submit-button {
   padding: 5px;
   cursor: pointer;
+}
+
+.game-operation-tip {
+  color: coral;
+  margin: 5px 0;
+}
+
+.game-operation-list ul {
+
+}
+
+.win {
+  color: red;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.game-line {
+  display: flex;
+  justify-content: space-between;
 }

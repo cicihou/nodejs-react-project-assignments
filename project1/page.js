@@ -1,4 +1,3 @@
-const controller = require("./controller.js");
 const info = require("./userInfo.js")
 const words = require("./words")
 
