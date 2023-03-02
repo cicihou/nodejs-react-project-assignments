@@ -4,8 +4,8 @@
   "description": "My webpack project",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npx serve public",
-    "build": "npx webpack"
+    "build": "npx webpack",
+    "test": "npm run build && npm start"
   },
   "author": "",
   "license": "ISC",
