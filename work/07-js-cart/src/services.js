@@ -1,6 +1,3 @@
-
-import state from "./state";
-
 export function fetchCatList() {
   return fetch(`/products`)
     .catch( () => {
@@ -12,10 +9,4 @@ export function fetchCatList() {
       }
       return response.json();
     });
-};
-
-
-export function addCat(name) {
-  state.updateCart(name);
-};
-
+}
