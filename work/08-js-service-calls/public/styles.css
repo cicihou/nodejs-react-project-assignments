@@ -1,0 +1,75 @@
+*, *::before, *::after { 
+  box-sizing: border-box;
+}
+
+:root { 
+  --banner-bg-color: cadetblue;
+  --bg-color: white;
+  --inactive-bg-color: #f0f0f0;
+  --active-bg-color: dodgerblue;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.page__header {
+  background-color: cadetblue;
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  align-items: center;
+  color: white;
+  padding: 0 10px;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+}
+
+.login__panel {
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  background: whitesmoke;
+}
+
+.login__form{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.info__input, .word__input{
+  height: 30px;
+  outline: none;
+  width: 250px;
+}
+
+.login__button, .update__button{
+  height: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.logout__button {
+  cursor: pointer;
+}
+
+.prompt {
+  font-size: 30px;
+}
+
+.login__msg, .update__msg{
+  color: red;
+}
