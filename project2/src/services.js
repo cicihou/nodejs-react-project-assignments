@@ -63,5 +63,35 @@ export function fetchUsers() {
     });
 }
 
+export function postMessage(msg) {
+  return fetch('/api/message/', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify( { msg } ),
+  })
+    .catch( err => Promise.reject({ error: 'network-error' }) )
+    .then( response => {
+      if(!response.ok) {
+        return response.json().then( err => Promise.reject(err) );
+      }
+      return response.json();
+    });
+}
 
-
+export function fetchMessages() {
+  return fetch('/api/message/', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json',
+    }
+  })
+    .catch( err => Promise.reject({ error: 'network-error' }) )
+    .then( response => {
+      if(!response.ok) {
+        return response.json().then( err => Promise.reject(err) );
+      }
+      return response.json();
+    });
+}

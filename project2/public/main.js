@@ -12,8 +12,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "checkSession": () => (/* binding */ checkSession),
 /* harmony export */   "fetchLogin": () => (/* binding */ fetchLogin),
+/* harmony export */   "fetchMessages": () => (/* binding */ fetchMessages),
 /* harmony export */   "fetchUsers": () => (/* binding */ fetchUsers),
-/* harmony export */   "logout": () => (/* binding */ logout)
+/* harmony export */   "logout": () => (/* binding */ logout),
+/* harmony export */   "postMessage": () => (/* binding */ postMessage)
 /* harmony export */ });
 function fetchLogin(username) {
   return fetch('/api/session/', {
@@ -95,6 +97,47 @@ function fetchUsers() {
     return response.json();
   });
 }
+function postMessage(msg) {
+  return fetch('/api/message/', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      msg: msg
+    })
+  })["catch"](function (err) {
+    return Promise.reject({
+      error: 'network-error'
+    });
+  }).then(function (response) {
+    if (!response.ok) {
+      return response.json().then(function (err) {
+        return Promise.reject(err);
+      });
+    }
+    return response.json();
+  });
+}
+function fetchMessages() {
+  return fetch('/api/message/', {
+    method: 'GET',
+    headers: {
+      'content-type': 'application/json'
+    }
+  })["catch"](function (err) {
+    return Promise.reject({
+      error: 'network-error'
+    });
+  }).then(function (response) {
+    if (!response.ok) {
+      return response.json().then(function (err) {
+        return Promise.reject(err);
+      });
+    }
+    return response.json();
+  });
+}
 
 /***/ }),
 
@@ -115,7 +158,7 @@ function renderLogin(rootEl) {
   rootEl.innerHTML = "\n    <header class=\"page__header\"><h2>Welcome!</h2><p>Please login.</p></header>\n    <main class=\"main\">\n      <div class=\"login__panel\">\n        <p class=\"prompt\">Please Log in: </p>\n        <div class=\"login__form\">\n          <label>\n              Username:\n              <input class=\"info__input\" type=\"text\" name=\"username\" required>\n          </label>\n          <button class=\"login__button\">Submit</button>\n          <span class=\"login__msg\"></span>\n        </div>\n      </div>\n    </main>\n  ";
 }
 function renderHome(rootEl, username) {
-  rootEl.innerHTML = "\n    <header class=\"page__header\"><h2>Welcome! ".concat(username, "</h2><button class=\"logout__button\">Log out</button></header>\n    <main class=\"main\">\n      <div class=\"chat\">\n        <ul class=\"user__list\"></ul>\n        <div class=\"message\">\n            <ul class=\"msg__list\"></ul>\n            <div class=\"msg__input\">\n                <input class=\"input__msg\"/>\n                <button class=\"send_msg\">Send</button>\n            </div>\n        </div>\n      </div>\n    </main>\n  ");
+  rootEl.innerHTML = "\n    <header class=\"page__header\"><h2>Welcome! ".concat(username, "</h2><button class=\"logout__button\">Log out</button></header>\n    <main class=\"main\">\n      <div class=\"chat\">\n        <div class=\"users\">\n            <ul class=\"user__list\"></ul>\n            <div class=\"user__loading\"><i class=\"gg-spinner\"></i></div>\n        </div>\n        <div class=\"message\">\n            <ul class=\"msg__list\"></ul>\n            <div class=\"msg__input\">\n                <input class=\"input__msg\"/>\n                <button class=\"send__msg\">Send</button>\n            </div>\n            <div class=\"msg__loading\"><i class=\"gg-spinner\"></i></div>\n        </div>\n      </div>\n    </main>\n  ");
 }
 function renderUserList(users) {
   var userList = document.querySelector('.user__list');
@@ -123,9 +166,11 @@ function renderUserList(users) {
     return "<li class=\"user__list__item\">".concat(user.username, "</li>");
   }).join("");
 }
-function renderMsgList() {
+function renderMsgList(messages) {
   var msgList = document.querySelector('.msg__list');
-  msgList.innerHTML = "\n    <li class=\"msg__list__item\">\n        <p class=\"msg__user\">user1</p>\n        <p class=\"msg__text\">hello word!</p>\n    </li>\n    <li class=\"msg__list__item\">\n        <p class=\"msg__user\">user1</p>\n        <p class=\"msg__text\">hello word!hello word!hello word!hello word!hello word!hello word!hello word!hello word!hello word!</p>\n    </li>\n  ";
+  msgList.innerHTML = messages.map(function (message) {
+    return "\n    <li class=\"msg__list__item\">\n        <p class=\"msg__user\">".concat(message.username, "<span class=\"msg__time\">").concat(message.time, "</span></p>\n        <p class=\"msg__text\">").concat(message.message.replace(/</g, '&lt;').replace(/>/g, '&gt;'), "</p>\n    </li>\n  ");
+  }).join("");
 }
 
 /***/ })
@@ -199,6 +244,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var rootEl = document.querySelector('#root');
 var loading = document.querySelector('.loading');
+var intervalUser;
+var intervalMsg;
 rootEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('login__button')) {
     var username = document.getElementsByClassName('info__input')[0].value;
@@ -207,6 +254,16 @@ rootEl.addEventListener('click', function (e) {
   if (e.target.classList.contains('logout__button')) {
     (0,_services__WEBPACK_IMPORTED_MODULE_0__.logout)().then(function (res) {
       (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderLogin)(rootEl);
+    });
+  }
+  if (e.target.classList.contains('send__msg')) {
+    var inputEl = document.getElementsByClassName('input__msg')[0];
+    var msg = inputEl.value;
+    if (msg == null || msg === '') return;
+    (0,_services__WEBPACK_IMPORTED_MODULE_0__.postMessage)(msg).then(function (res) {
+      inputEl.value = '';
+      doFetchMessages();
+      startIntervalForMessages();
     });
   }
 });
@@ -222,15 +279,38 @@ function getHome(username) {
   (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderHome)(rootEl, username);
   doFetchUsers();
   doFetchMessages();
+  startIntervalForUsers();
+  startIntervalForMessages();
 }
 function doFetchUsers() {
+  var userLoading = document.querySelector('.user__loading');
+  userLoading.style.display = 'flex';
   (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchUsers)().then(function (res) {
-    console.log(res);
     (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderUserList)(res.users);
-  })["catch"](function (error) {});
+  })["catch"](function (error) {})["finally"](function () {
+    userLoading.style.display = 'none';
+  });
+}
+function startIntervalForUsers() {
+  clearInterval(intervalUser);
+  intervalUser = setInterval(function () {
+    doFetchUsers();
+  }, 5000);
 }
 function doFetchMessages() {
-  (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderMsgList)();
+  var msgLoading = document.querySelector('.msg__loading');
+  msgLoading.style.display = 'flex';
+  (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)().then(function (res) {
+    (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderMsgList)(res.msgList);
+  })["catch"](function (error) {})["finally"](function () {
+    msgLoading.style.display = 'none';
+  });
+}
+function startIntervalForMessages() {
+  clearInterval(intervalMsg);
+  intervalMsg = setInterval(function () {
+    doFetchMessages();
+  }, 5000);
 }
 (0,_services__WEBPACK_IMPORTED_MODULE_0__.checkSession)().then(function (res) {
   getHome(res.username);

@@ -6,6 +6,7 @@ const PORT = 3000;
 
 const sessions = require('./sessions');
 const users = require('./users');
+const messages = require('./messages');
 
 app.use(cookieParser());
 app.use(express.static('./public'));
@@ -71,5 +72,34 @@ app.get('/api/users', (req, res) => {
   res.json({ users });
 });
 
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+app.post('/api/message', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
 
+  const { msg } = req.body;
+
+  if(msg == null || msg === '') {
+    res.status(400).json({ error: 'required-message' });
+    return;
+  }
+
+  messages.addMsg(username, msg);
+  res.json({ msg });
+});
+
+app.get('/api/message', (req, res) => {
+  const sid = req.cookies.sid;
+  const username = sid ? sessions.getSessionUser(sid) : '';
+  if(!sid || !username) {
+    res.status(401).json({ error: 'auth-missing' });
+    return;
+  }
+  const msgList = messages.getAllMsg();
+  res.json({ msgList });
+});
+
+app.listen(PORT, () => console.log(`http://localhost:${PORT}`));

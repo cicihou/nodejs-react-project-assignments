@@ -22,13 +22,17 @@ export function renderHome(rootEl, username) {
     <header class="page__header"><h2>Welcome! ${username}</h2><button class="logout__button">Log out</button></header>
     <main class="main">
       <div class="chat">
-        <ul class="user__list"></ul>
+        <div class="users">
+            <ul class="user__list"></ul>
+            <div class="user__loading"><i class="gg-spinner"></i></div>
+        </div>
         <div class="message">
             <ul class="msg__list"></ul>
             <div class="msg__input">
                 <input class="input__msg"/>
-                <button class="send_msg">Send</button>
+                <button class="send__msg">Send</button>
             </div>
+            <div class="msg__loading"><i class="gg-spinner"></i></div>
         </div>
       </div>
     </main>
@@ -40,16 +44,12 @@ export function renderUserList(users) {
   userList.innerHTML = users.map((user) => `<li class="user__list__item">${user.username}</li>`).join("");
 }
 
-export function renderMsgList() {
+export function renderMsgList(messages) {
   const msgList = document.querySelector('.msg__list');
-  msgList.innerHTML = `
+  msgList.innerHTML = messages.map((message) => `
     <li class="msg__list__item">
-        <p class="msg__user">user1</p>
-        <p class="msg__text">hello word!</p>
+        <p class="msg__user">${message.username}<span class="msg__time">${message.time}</span></p>
+        <p class="msg__text">${message.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
     </li>
-    <li class="msg__list__item">
-        <p class="msg__user">user1</p>
-        <p class="msg__text">hello word!hello word!hello word!hello word!hello word!hello word!hello word!hello word!hello word!</p>
-    </li>
-  `
+  `).join("");
 }

@@ -1,8 +1,10 @@
-import {checkSession, fetchLogin, fetchUsers, logout} from './services';
+import {checkSession, fetchLogin, fetchUsers, logout, postMessage, fetchMessages} from './services';
 import {renderLogin, renderHome, renderUserList, renderMsgList} from './view'
 
 const rootEl = document.querySelector('#root');
 const loading = document.querySelector('.loading');
+let intervalUser;
+let intervalMsg;
 
 rootEl.addEventListener('click', (e) => {
   if(e.target.classList.contains('login__button')) {
@@ -15,6 +17,18 @@ rootEl.addEventListener('click', (e) => {
       .then(res => {
         renderLogin(rootEl);
       });
+  }
+
+  if (e.target.classList.contains('send__msg')) {
+    const inputEl = document.getElementsByClassName('input__msg')[0];
+    const msg = inputEl.value;
+    if (msg == null || msg === '') return;
+    postMessage(msg)
+      .then(res => {
+        inputEl.value = '';
+        doFetchMessages();
+        startIntervalForMessages();
+      })
   }
 });
 
@@ -33,19 +47,44 @@ function getHome(username) {
   renderHome(rootEl, username);
   doFetchUsers();
   doFetchMessages();
+  startIntervalForUsers();
+  startIntervalForMessages();
 }
 
 function doFetchUsers() {
+  const userLoading = document.querySelector('.user__loading');
+  userLoading.style.display = 'flex';
   fetchUsers()
     .then(res => {
-      console.log(res)
       renderUserList(res.users);
     })
     .catch(error => {})
+    .finally(() => { userLoading.style.display = 'none'; })
+}
+
+function startIntervalForUsers() {
+  clearInterval(intervalUser);
+  intervalUser = setInterval(() => {
+    doFetchUsers();
+  }, 5000);
 }
 
 function doFetchMessages() {
-  renderMsgList();
+  const msgLoading = document.querySelector('.msg__loading');
+  msgLoading.style.display = 'flex';
+  fetchMessages()
+    .then(res => {
+      renderMsgList(res.msgList);
+    })
+    .catch(error => {})
+    .finally(() => { msgLoading.style.display = 'none'; })
+}
+
+function startIntervalForMessages() {
+  clearInterval(intervalMsg);
+  intervalMsg = setInterval(() => {
+    doFetchMessages();
+  }, 5000);
 }
 
 checkSession()
