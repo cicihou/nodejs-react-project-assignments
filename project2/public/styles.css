@@ -175,6 +175,7 @@ html, body {
 
 .msg__list__item {
     margin: 10px;
+    word-break: break-word;
 }
 
 .msg__user {

@@ -30,7 +30,7 @@ app.post('/api/session', (req, res) => {
 
   if(!users.isValidUsername(username)) {
     console.log(username);
-    res.status(400).json({ error: 'required-username' });
+    res.status(400).json({ error: 'username-invalid' });
     return;
   }
 

@@ -26,7 +26,7 @@ rootEl.addEventListener('click', (e) => {
     postMessage(msg)
       .then(res => {
         inputEl.value = '';
-        doFetchMessages();
+        doFetchMessages(true);
         startIntervalForMessages();
       })
   }
@@ -46,7 +46,7 @@ function doLogin(username) {
 function getHome(username) {
   renderHome(rootEl, username);
   doFetchUsers();
-  doFetchMessages();
+  doFetchMessages(true);
   startIntervalForUsers();
   startIntervalForMessages();
 }
@@ -69,12 +69,16 @@ function startIntervalForUsers() {
   }, 5000);
 }
 
-function doFetchMessages() {
+function doFetchMessages(scroll) {
   const msgLoading = document.querySelector('.msg__loading');
   msgLoading.style.display = 'flex';
   fetchMessages()
     .then(res => {
       renderMsgList(res.msgList);
+      if (scroll) {
+        const scrollTarget = document.querySelector('.msg__list');
+        scrollToBottom(scrollTarget);
+      }
     })
     .catch(error => {})
     .finally(() => { msgLoading.style.display = 'none'; })
@@ -85,6 +89,10 @@ function startIntervalForMessages() {
   intervalMsg = setInterval(() => {
     doFetchMessages();
   }, 5000);
+}
+
+function scrollToBottom(target) {
+  target.scrollTop = target.scrollHeight;
 }
 
 checkSession()

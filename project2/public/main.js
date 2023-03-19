@@ -262,7 +262,7 @@ rootEl.addEventListener('click', function (e) {
     if (msg == null || msg === '') return;
     (0,_services__WEBPACK_IMPORTED_MODULE_0__.postMessage)(msg).then(function (res) {
       inputEl.value = '';
-      doFetchMessages();
+      doFetchMessages(true);
       startIntervalForMessages();
     });
   }
@@ -278,7 +278,7 @@ function doLogin(username) {
 function getHome(username) {
   (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderHome)(rootEl, username);
   doFetchUsers();
-  doFetchMessages();
+  doFetchMessages(true);
   startIntervalForUsers();
   startIntervalForMessages();
 }
@@ -297,11 +297,15 @@ function startIntervalForUsers() {
     doFetchUsers();
   }, 5000);
 }
-function doFetchMessages() {
+function doFetchMessages(scroll) {
   var msgLoading = document.querySelector('.msg__loading');
   msgLoading.style.display = 'flex';
   (0,_services__WEBPACK_IMPORTED_MODULE_0__.fetchMessages)().then(function (res) {
     (0,_view__WEBPACK_IMPORTED_MODULE_1__.renderMsgList)(res.msgList);
+    if (scroll) {
+      var scrollTarget = document.querySelector('.msg__list');
+      scrollToBottom(scrollTarget);
+    }
   })["catch"](function (error) {})["finally"](function () {
     msgLoading.style.display = 'none';
   });
@@ -311,6 +315,9 @@ function startIntervalForMessages() {
   intervalMsg = setInterval(function () {
     doFetchMessages();
   }, 5000);
+}
+function scrollToBottom(target) {
+  target.scrollTop = target.scrollHeight;
 }
 (0,_services__WEBPACK_IMPORTED_MODULE_0__.checkSession)().then(function (res) {
   getHome(res.username);
