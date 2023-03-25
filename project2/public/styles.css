@@ -1,0 +1,217 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --banner-bg-color: cadetblue;
+    --bg-color: white;
+    --inactive-bg-color: #f0f0f0;
+    --active-bg-color: dodgerblue;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.page__header {
+    background-color: cadetblue;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+    color: white;
+    padding: 0 10px;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+}
+
+.login__panel {
+    padding: 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    background: whitesmoke;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.info__input {
+    height: 30px;
+    outline: none;
+    width: 250px;
+}
+
+.login__button {
+    height: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.logout__button {
+    cursor: pointer;
+}
+
+.prompt {
+    font-size: 30px;
+}
+
+.login__msg {
+    color: red;
+}
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    background: rgba(168,162,161,0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+.msg__loading, .user__loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.gg-spinner,
+.gg-spinner::after,
+.gg-spinner::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px
+}
+
+.gg-spinner::after,
+.gg-spinner::before {
+    content: "";
+    position: absolute;
+    border-radius: 100px
+}
+
+.gg-spinner::before {
+    animation: spinner 1s
+    cubic-bezier(.6,0,.4,1) infinite;
+    border: 3px solid transparent;
+    border-top-color: currentColor
+}
+
+.gg-spinner::after {
+    border: 3px solid;
+    opacity: .2
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg) }
+    to { transform: rotate(359deg) }
+}
+
+.chat {
+    width: 80%;
+    max-width: 700px;
+    display: flex;
+    border: 1px solid #D3CECE;
+    height: 85%;
+}
+
+.users {
+    position: relative;
+    width: 25%;
+}
+
+.user__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-right: 1px solid #D3CECE;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.user__list__item {
+    padding: 10px;
+    word-break: break-word;
+}
+
+.message {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.msg__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.msg__list__item {
+    margin: 10px;
+    word-break: break-word;
+}
+
+.msg__user {
+    padding: 0;
+    margin: 0;
+    font-weight: bold;
+}
+
+.msg__time {
+    font-weight: normal;
+    font-size: 13px;
+    padding: 0 20px;
+}
+
+.msg__text {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.msg__input {
+    height: 50px;
+    border-top: 1px solid #D3CECE;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.input__msg {
+    flex: 1;
+    height: 30px;
+}
+
+.send__msg {
+    height: 30px;
+    padding: 0 10px;
+    cursor: pointer;
+    margin-left: 5px;
+}
