@@ -1,38 +1,31 @@
-// NOTICE: We don't do a import React from 'react';
-// That is old advice, unneeded!
-
-import { useState } from 'react'; // no "path", we're importing from a library
-
-import './App.css';
-import Content from './Content'; // These have explicit paths, we're importing our own files
-import Login from './Login';
+import { useState } from 'react';
+import './assets/App.css';
+import Login from './components/Login';
+import Game from './components/Game';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+  const [username, setUserName] = useState('');
 
-  // The below "wrapper" functions make the components more generic and reusable
-  function onLogin(username) {
-    setUsername(username);
+  const doLogin = (name) => {
+    setUserName(name);
     setIsLoggedIn(true);
-  };
-  function onLogout() {
-    setIsLoggedIn(false);
-  };
+  }
 
-  // Notice we use "className", not "class"
-  // Notice we use kebab-case classnames!
-  // Notice the value in {} is replaced by result
+  const doLogout = () => {
+    setUserName('');
+    setIsLoggedIn(false);
+  }
+
   return (
     <div className="app">
-      { isLoggedIn
-        ? <Content
-            username={username}
-            onLogout={onLogout}
-          />
-        : <Login
-            onLogin={onLogin}
-          />
+      <header className="header">
+        <h2>Welcome! {username}</h2>
+        {isLoggedIn && <button className="logout" onClick={doLogout}>Log out</button>}
+      </header>
+      {isLoggedIn
+        ? <Game/>
+        : <Login doLogin={doLogin}/>
       }
     </div>
   );
