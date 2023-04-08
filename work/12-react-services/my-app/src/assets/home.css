@@ -1,0 +1,32 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  margin-right: 10px;
+}
+
+.tip {
+  margin: 0;
+  padding: 0;
+  color: red;
+  text-align: center;
+}
+
+.action {
+  cursor: pointer;
+  margin-left: 5px;
+}

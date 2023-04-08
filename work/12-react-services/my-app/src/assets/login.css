@@ -1,0 +1,44 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+}
+
+.login {
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  background: whitesmoke;
+}
+
+.prompt {
+  font-size: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.username {
+  height: 30px;
+  outline: none;
+  width: 250px;
+}
+
+.submit {
+  height: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.message {
+  color: red;
+}
