@@ -18,7 +18,7 @@ only exist user can log in
 
 ## chat
 * chatroom will display all the information
-* msg will show the user, avator, sending time
+* msg will show the user, avatar, sending time
 * user could send text message or pic
 * user have 3 status, user could set their status "online", "offline", "busy"
 * user could thumb-up/down on message
