@@ -117,8 +117,6 @@ app.put('/api/status', (req, res) => {
   res.json({ status });
 });
 
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
-
 // Get all users
 app.get('/api/users', (req, res) => {
   const sid = req.cookies.sid;
@@ -151,7 +149,20 @@ app.post('/api/message', (req, res) => {
   }
 
   messages.addMessage(user, msg);
-  res.json({ msg });
+  res.json({ msgList: messages.getAllMessage() });
+});
+
+// get all message
+app.get('/api/message', (req, res) => {
+  const sid = req.cookies.sid;
+  const user = sid ? sessions.getSessionUser(sid) : null;
+  if(!sid || !user) {
+    res.status(401).json({ error: 'auth missing' });
+    return;
+  }
+
+  const msgList = messages.getAllMessage();
+  res.json({ msgList });
 });
 
 // Edit a message
@@ -185,9 +196,10 @@ app.put('/api/message/thumb/up', (req, res) => {
   }
 
   const { msgId } = req.body;
-
   messages.thumbUp(user.username, msgId);
-  res.json({ msgId });
+
+  const msgList = messages.getAllMessage();
+  res.json({ msgList });
 });
 
 // Thumb down a message
@@ -201,8 +213,11 @@ app.put('/api/message/thumb/down', (req, res) => {
   }
 
   const { msgId } = req.body;
-
   messages.thumbDown(user.username, msgId);
-  res.json({ msgId });
+
+  const msgList = messages.getAllMessage();
+  res.json({ msgList });
 });
+
+app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
 

@@ -13,7 +13,7 @@ function Login({ updateLogin }) {
   const doLogin = () => {
     fetchLogin(name)
       .then( res => {
-        updateLogin(name, res.word);
+        updateLogin(res.user);
         setName('');
       })
       .catch( err => {

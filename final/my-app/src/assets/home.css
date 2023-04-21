@@ -66,3 +66,115 @@
     padding: 0;
     font-size: 12px;
 }
+
+.status__online {
+    color: green;
+}
+
+.status__offline {
+    color: gray;
+}
+
+.status__busy {
+    color: burlywood;
+}
+
+.home__message {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.message__head {
+    padding: 0 10px;
+    border-bottom: 1px solid #56AAFF;
+}
+
+.current__avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.current__status {
+    cursor: pointer;
+}
+
+.message__content {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    margin: 10px;
+}
+
+.message__avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.message__sender {
+    margin: 0 0 0 10px;
+    padding: 0;
+    color: #666;
+}
+
+.message__time {
+    font-size: 10px;
+    margin-left: 10px;
+    color: #C8C8C8;
+}
+
+.message__text {
+    margin: 0 0 0 10px;
+    padding: 6px;
+    border-radius: 4px;
+    background-color: #F1EFEF;
+    display: inline-block;
+}
+
+.message__thumb {
+    display: flex;
+}
+
+.thumb {
+    font-size: 10px;
+    padding: 0;
+    margin: 0 0 0 10px;
+    cursor: pointer;
+}
+
+.thumb__icon {
+    width: 20px;
+    height: 20px;
+}
+
+.message__action {
+    height: 60px;
+    border-top: 1px solid #56AAFF;
+    display: flex;
+    align-items: center;
+}
+
+.message__input {
+    height: 32px;
+    flex: 1 1;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+}
+
+.message__send {
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.message__time {
+
+}

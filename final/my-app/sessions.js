@@ -5,6 +5,7 @@ const sessions = {};
 
 function addSession(userinfo) {
   const sid = uuid();
+  userinfo.status = 1;
   sessions[sid] = userinfo;
   return sid;
 }
@@ -14,6 +15,7 @@ function getSessionUser(sid) {
 }
 
 function deleteSession(sid) {
+  sessions[sid].status = 0;
   delete sessions[sid];
 }
 

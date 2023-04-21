@@ -15,7 +15,7 @@ function isValidUsername(username) {
 }
 
 function isValidUserAvatar(avatar) {
-  return /\w.(png|jpg|jpeg|svg|webp|gif|bmp)$/i.test(avatar);
+  return avatar == null || avatar === '' || /\w.(png|jpg|jpeg|svg|webp|gif|bmp)$/i.test(avatar);
 }
 
 function isValidUserSlogan(slogan) {

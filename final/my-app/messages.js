@@ -15,6 +15,10 @@ function addMessage(userinfo, message) {
   });
 }
 
+function getAllMessage() {
+  return messages;
+}
+
 function thumbUp(username, msgId) {
   const targetIndex = messages.findIndex((val) => val.id === msgId);
   if (!messages[targetIndex].thumbUp.includes(username)) {
@@ -42,5 +46,6 @@ module.exports = {
   addMessage,
   thumbUp,
   thumbDown,
-  editMessage
+  editMessage,
+  getAllMessage
 }
