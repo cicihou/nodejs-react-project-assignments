@@ -15,14 +15,17 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(LOGIN_STATUS.PENDING);
   const [isRegister, setIsRegister] = useState(false);
   const [user, setUser] = useState(null);
+  const [userStatus, setUserStatus] = useState(0);
 
   function updateLogin(user) {
     setUser(user);
+    setUserStatus(user.status);
     setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
   }
 
   function doLogout() {
     setUser(null);
+    setUserStatus(0);
     setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
     fetchLogout()
       .then();
@@ -37,11 +40,17 @@ function App() {
       .then( session => {
         setLoginStatus(LOGIN_STATUS.IS_LOGGED_IN);
         setUser(session.user);
+        setUserStatus(session.user.status);
       })
       .catch( err => {
         setLoginStatus(LOGIN_STATUS.NOT_LOGGED_IN);
         setUser(null);
+        setUserStatus(0);
       });
+  }
+
+  function updateCurrentUser(status) {
+    setUserStatus(status);
   }
 
   useEffect(
@@ -60,7 +69,7 @@ function App() {
         {loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && isRegister && <button className="logout" onClick={showRegister}>Sign In</button>}
       </header>
       {loginStatus === LOGIN_STATUS.PENDING && <Loading className="waiting">Loading user...</Loading>}
-      {loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Home currentUser={user}/>}
+      {loginStatus === LOGIN_STATUS.IS_LOGGED_IN && <Home currentUser={user} currentStatus={userStatus} updateCurrentStatus={updateCurrentUser}/>}
       {loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && !isRegister && <Login updateLogin={updateLogin}/>}
       {loginStatus === LOGIN_STATUS.NOT_LOGGED_IN && isRegister && <Register />}
     </div>

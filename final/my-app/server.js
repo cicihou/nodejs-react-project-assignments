@@ -67,13 +67,13 @@ app.post('/api/session', (req, res) => {
     return;
   }
 
-  if (!users.isUsernameRegister(username)) {
-    res.status(400).json({ error: 'username does not registered' });
+  if(username === 'dog') {
+    res.status(403).json({ error: 'disallowed user' });
     return;
   }
 
-  if(username === 'dog') {
-    res.status(403).json({ error: 'disallowed user' });
+  if (!users.isUsernameRegister(username)) {
+    res.status(400).json({ error: 'username does not registered' });
     return;
   }
 
@@ -163,26 +163,6 @@ app.get('/api/message', (req, res) => {
 
   const msgList = messages.getAllMessage();
   res.json({ msgList });
-});
-
-// Edit a message
-app.put('/api/message', (req, res) => {
-  const sid = req.cookies.sid;
-
-  const user = sid ? sessions.getSessionUser(sid) : null;
-  if(!sid || !user) {
-    res.status(401).json({ error: 'auth missing' });
-    return;
-  }
-
-  const { msgId, text } = req.body;
-
-  const result = messages.editMessage(user.username, msgId, text);
-  if (result) {
-    res.json({ msgId });
-  } else {
-    res.status(403).json({ error: 'you do not have permission' });
-  }
 });
 
 // Thumb up a message

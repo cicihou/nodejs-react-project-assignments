@@ -1,15 +1,16 @@
 import'../assets/home.css'
-import { fetchUsers, postMessage, fetchMessage, thumbUpMessage, thumbDownMessage } from "../util/services";
+import { fetchUsers, postMessage, fetchMessage, thumbUpMessage, thumbDownMessage, putStatus } from "../util/services";
 import {useEffect, useRef, useState} from "react";
 import { STATUS, DEFAULT_AVATAR } from "../util/constants";
 import LOGO_SEND from '../assets/img/send.svg'
 import LOGO_THUMB_UP from '../assets/img/thumbs-up.svg'
 import LOGO_THUMB_DOWN from '../assets/img/thumbs-down.svg'
 
-function Home({ currentUser }) {
+function Home({ currentUser, currentStatus, updateCurrentStatus }) {
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const [showStatusOption, setShowStatusOption] = useState(false);
   const messageEl = useRef(null);
 
   const getUserList = () => {
@@ -18,6 +19,10 @@ function Home({ currentUser }) {
         setUsers(res?.userList);
       })
       .catch( err => {});
+  }
+
+  const triggerStatus = () => {
+    setShowStatusOption(!showStatusOption);
   }
 
   const getStatusStyle = (status) => {
@@ -34,6 +39,16 @@ function Home({ currentUser }) {
     }
 
     return '';
+  }
+
+  const doPutStatus = (status) => {
+    if (currentStatus !== status) {
+      putStatus(status)
+        .then( res => {
+          updateCurrentStatus(res.status);
+        })
+        .catch( err => {});
+    }
   }
 
   const handleInputChange = (e) => {
@@ -129,7 +144,16 @@ function Home({ currentUser }) {
                 <div className="user__info">
                   <div className="user__base">
                     <h2 className="user__name">{currentUser.username}</h2>
-                    <p className={["user__status current__status", getStatusStyle(currentUser.status)].join(' ')}>{STATUS[currentUser.status]}</p>
+                    <div className="current__status" onClick={triggerStatus}>
+                      <p className={["user__status", getStatusStyle(currentStatus)].join(' ')}>{STATUS[currentStatus]}</p>
+                      {
+                        showStatusOption &&
+                        <ul className="status__option">
+                          <li className="status__option__item" onClick={(e) => {doPutStatus(1)}}>online</li>
+                          <li className="status__option__item" onClick={(e) => {doPutStatus(2)}}>busy</li>
+                        </ul>
+                      }
+                    </div>
                   </div>
                   <p className="user_slogan">{currentUser.slogan}</p>
                 </div>
@@ -145,12 +169,12 @@ function Home({ currentUser }) {
                     <span>{msg.sender.username}</span>
                     <span className="message__time">{msg.time}</span>
                   </p>
-                  <p className="message__text">{msg.content}</p>
+                  { msg.img ? <img className="message_img" src={msg.img} alt=""></img> : <p className="message__text">{msg.content}</p> }
                   <div className="message__thumb">
-                    <p className="thumb" onClick={(e) => {doThumbUp(msg.id)}}>
+                    <p className={["thumb", msg.thumbUp.includes(currentUser.username) ? "thumb__forbid" : ''].join(' ')} onClick={(e) => {doThumbUp(msg.id)}}>
                       <img className="thumb__icon" src={LOGO_THUMB_UP} alt=''/><span>{msg.thumbUp.length}</span>
                     </p>
-                    <p className="thumb" onClick={(e) => {doThumbDown(msg.id)}}>
+                    <p className={["thumb", msg.thumbUp.includes(currentUser.username) ? "thumb__forbid" : ''].join(' ')} onClick={(e) => {doThumbDown(msg.id)}}>
                       <img className="thumb__icon" src={LOGO_THUMB_DOWN} alt=''/><span>{msg.thumbDown.length}</span>
                     </p>
                   </div>

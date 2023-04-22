@@ -31,6 +31,8 @@
     outline: none;
     width: 250px;
     margin-left: 5px;
+    border: 1px solid #666;
+    border-radius: 4px;
 }
 
 .login__submit {

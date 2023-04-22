@@ -99,6 +99,29 @@
 
 .current__status {
     cursor: pointer;
+    position: relative;
+}
+
+.status__option {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    margin: 0;
+    padding: 5px 0;
+    list-style: none;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid #CCC9D3;
+    box-shadow: 4px 4px 4px 0 #CCC9D3;
+}
+
+.status__option__item {
+    font-size: 13px;
+    padding: 5px 10px;
+}
+
+.status__option__item:hover {
+    background-color: #f0f0f0;
 }
 
 .message__content {
@@ -137,6 +160,12 @@
     border-radius: 4px;
     background-color: #F1EFEF;
     display: inline-block;
+    word-break: break-word;
+}
+
+.message_img {
+    width: 30%;
+    min-width: 60px;
 }
 
 .message__thumb {
@@ -148,6 +177,10 @@
     padding: 0;
     margin: 0 0 0 10px;
     cursor: pointer;
+}
+
+.thumb__forbid {
+    cursor: no-drop;
 }
 
 .thumb__icon {

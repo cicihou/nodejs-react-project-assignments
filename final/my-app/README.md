@@ -1,28 +1,31 @@
-Online Chat Room
+# Online Chat Room
+This is a website where people can chat with each other. 
+You can see who else is signed up and if they're online or not.
+![](./readme/readme_home.png)
 
 # User
-
 ## Sign up
-username, avatar, slogan(no more than 20 char)
-the username must be valid(no dog)
-if no avatar, it would be default
+User could sign up with username, avatar, slogan(no more than 20 character).
+The username must be valid(no dog).
+If no avatar, it would provide default avatar.
+![](./readme/readme_register.png)
 
 ## Log in
-only exist user can log in
+Only exist user can log in
+
+![](./readme/readme_login.png)
 
 # Logged User can
 
-## get info
-* welcome slogan for logged user
-* user list that show all "exist user",
+## Get info
+* User list that show all "exist user"
+* You could check the user status as "online", "offline", "busy"
 
-## chat
-* chatroom will display all the information
-* msg will show the user, avatar, sending time
-* user could send text message or pic
-* user have 3 status, user could set their status "online", "offline", "busy"
-* user could thumb-up/down on message
-* user could edit their message
-
-
-### ${message.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}
+## Chat
+* Chatroom will display all the information
+* Msg will show the user, avatar, sending time
+* User could send text message or picture. I
+* If image link is detected, it would be displayed as picture automatically.
+* User have 3 status, user could set their status "online", "offline", "busy"
+* User could thumb-up/down on message
+  ![](./readme/readme_status.png)

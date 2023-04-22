@@ -152,3 +152,22 @@ export function thumbDownMessage(msgId) {
         .then( err => Promise.reject(err) );
     });
 }
+
+export function putStatus(status) {
+  return fetch('/api/status', {
+    method: 'PUT',
+    headers: new Headers({
+      'content-type': 'application/json'
+    }),
+    body: JSON.stringify({ status })
+  })
+    .catch( () => Promise.reject({ error: 'networkError' }) )
+    .then( response => {
+      if (response.ok) {
+        return response.json();
+      }
+      return response.json()
+        .catch( error => Promise.reject({ error }) )
+        .then( err => Promise.reject(err) );
+    });
+}

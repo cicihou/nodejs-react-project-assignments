@@ -1,4 +1,4 @@
-// messages = [{id: '', sender: {}, time: 'mm-dd-yy HH:mm:ss', content: '', thumbUp: [], thumbDown: []}]
+// messages = [{id: '', sender: {}, time: 'mm-dd-yy HH:mm:ss', content: '', img, thumbUp: [], thumbDown: []}]
 const messages = [];
 
 function addMessage(userinfo, message) {
@@ -10,6 +10,7 @@ function addMessage(userinfo, message) {
     sender: userinfo,
     time,
     content: message,
+    img: /\w.(png|jpg|jpeg|svg|webp|gif|bmp)$/i.test(message) ? message : '',
     thumbUp: [],
     thumbDown: []
   });
@@ -33,19 +34,9 @@ function thumbDown(username, msgId) {
   }
 }
 
-function editMessage(username, msgId, text) {
-  const targetMessage = messages.find((val) => val.id === msgId);
-  if (targetMessage.sender.username !== username) {
-    return false;
-  }
-  targetMessage.content = text;
-  return true;
-}
-
 module.exports = {
   addMessage,
   thumbUp,
   thumbDown,
-  editMessage,
   getAllMessage
 }
