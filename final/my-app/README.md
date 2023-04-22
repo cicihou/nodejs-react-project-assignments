@@ -29,3 +29,18 @@ Only exist user can log in
 * User have 3 status, user could set their status "online", "offline", "busy"
 * User could thumb-up/down on message
   ![](./readme/readme_status.png)
+
+# How to run
+
+Dev mode, run with two terminal
+```
+npm run start
+npm run dev
+```
+
+Display mode, run all the commands one by one
+```aidl
+npm install
+npm run build
+npm start
+```
